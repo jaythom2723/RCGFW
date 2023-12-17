@@ -18,7 +18,7 @@ $(BUILD_DIR)/librcgfw2.a: $(wildcard *.o)
 	cp -r ./rcgfw2/include/*.h $(VENDOR_DIR)/rcgfw/include/rcgfw/
 
 game: $(wildcard ./game/src/*.c)
-	$(C)) $(RCGFW_PPFLAGS) $^ $(RCGFW_LDFLAGS) -o $(BUILD_DIR)/a.out
+	$(CC) $(GAME_PPFLAGS) $^ $(GAME_LDFLAGS) -o $(BUILD_DIR)/a.out
 
 .PHONY: clean
 clean:
