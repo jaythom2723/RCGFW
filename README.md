@@ -28,4 +28,26 @@ sudo apt-get install make
 2. Clone the repo into a given directory
 ```
 git clone https://github.com/jaythom2723/RCGFW.git
+cd RCGFW
+```
+3. Create the build directory and run make
+```
+mkdir build/
+make
+```
+
+### Arch-based Distros
+1. Similar to Debian-based Distros, make sure `make` is installed with `whereis make`. Install `make` if it's not installed.
+```
+sudo pacman -S make
+```
+2. Clone the repo into a given directory
+```
+git clone https://github.com/jaythom2723/RCGFW.git
+cd RCGFW
+```
+3. Create the build directory and run make
+```
+mkdir build
+cd build
 ```
