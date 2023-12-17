@@ -1,0 +1,6 @@
+*.o
+.gitignore
+build/
+.vscode/
+vendor/
+game/

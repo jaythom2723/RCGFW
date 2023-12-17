@@ -15,3 +15,17 @@ RCGFW is entirely written in ISO C99. The following libraries were used to compi
 * CGLM - Math Library
 * GLAD - OpenGL Extension Loader
 * StbImage - Image Loading
+
+# Compiling
+Currently, RCGFW only runs on linux and linux-based operating system. A Windows port will be made later during development.
+
+## Linux
+### Debian-based Distros
+1. You must make sure `make` is installed, you can check if it is installed with `whereis make`. If `whereis make` returns nothing; run the following command:
+```
+sudo apt-get install make
+```
+2. Clone the repo into a given directory
+```
+git clone https://github.com/jaythom2723/RCGFW.git
+```
