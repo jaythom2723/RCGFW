@@ -57,11 +57,6 @@ void RcgfwInit(const char *const title, const RcgfwUInt32 width, const RcgfwUInt
 	glfwSetFramebufferSizeCallback(state->wnd, &FramebufferSizeCallback);
 }
 
-void FramebufferSizeCallback(GLFWwindow *window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-}
-
 void RcgfwClose(void)
 {
 	state->shaderPtr = NULL;
@@ -159,4 +154,16 @@ void InitGL(void)
 
 	glAttachShader(state->program, state->shaders[0]);
 	glAttachShader(state->program, state->shaders[1]);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+	float borderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
+
+void FramebufferSizeCallback(GLFWwindow *window, int width, int height)
+{
+	glViewport(0, 0, width, height);
 }

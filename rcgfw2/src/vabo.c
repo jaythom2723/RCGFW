@@ -39,3 +39,13 @@ void RcgfwVaoVertexAttribArray(const RcgfwUInt32 index, const int size, const Rc
 	glVertexAttribPointer(index, size, GL_FLOAT, GL_FALSE, stride, ptr);
 	glEnableVertexAttribArray(index);
 }
+
+void RcgfwVaoDelete(RcgfwVao *vao)
+{
+	glDeleteVertexArrays(1, vao);
+}
+
+void RcgfwVboDelete(RcgfwVbo *vbo)
+{
+	glDeleteBuffers(1, vbo);
+}
