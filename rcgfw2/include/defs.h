@@ -31,6 +31,8 @@ typedef enum RcgfwErrorCodes
 	ERR_MEM_ALLOC_FAILURE = -1,
 	ERR_SHDR_COMP_FAILURE = -2,
 	ERR_PGRM_LINK_FAILURE = -4,
+	ERR_GPU_VAO_INVALID_OP = -8,
+	ERR_GPU_VBO_INVALID_OP = -16
 } RcgfwErrorCode;
 
 #endif /* RCGFW_DEFS_H */

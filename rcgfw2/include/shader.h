@@ -4,7 +4,6 @@
 #include "defs.h"
 
 void RcgfwShaderCreate(const char *src, RcgfwShaderType type);
-const char *const RcgfwShaderLoad(const char *const path);
 void RcgfwShaderDelete(void *offset);
 
 void RcgfwProgramAttachShader(void *offset);

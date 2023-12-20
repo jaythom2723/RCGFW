@@ -26,7 +26,7 @@ void RcgfwShaderCreate(const char *src, RcgfwShaderType type)
 	int success;
 	char infoLog[512];
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-	if(!success) // if compilation not succesful, error the program.
+	if(!success) // if compilation not succesful, error the program
 	{
 		glGetShaderInfoLog(shader, 512, NULL, infoLog);
 		FatalError(infoLog, ERR_SHDR_COMP_FAILURE);
