@@ -15,10 +15,10 @@
 
 #define RCGFW_NEW_TEXTURE calloc(4, sizeof(RcgfwUInt32))
 
-typedef unsigned long  RcgfwUInt64;
-typedef unsigned int   RcgfwUInt32;
-typedef unsigned short RcgfwUInt16;
-typedef unsigned char  RcgfwUInt8;
+typedef unsigned long long  RcgfwUInt64;
+typedef unsigned int   		RcgfwUInt32;
+typedef unsigned short 		RcgfwUInt16;
+typedef unsigned char  		RcgfwUInt8;
 
 typedef struct RcgfwState RcgfwState;
 typedef RcgfwUInt32 RcgfwShader, RcgfwShaderProgram, RcgfwVbo, RcgfwVao;

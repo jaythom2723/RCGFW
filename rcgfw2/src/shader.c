@@ -13,8 +13,6 @@ extern RcgfwShader GetShaderFromOffset(void *offset);
 extern void AddShader(RcgfwShader shader); 
 extern RcgfwShaderProgram GetShaderProgram(void);
 
-extern RcgfwState *state;
-
 void RcgfwShaderCreate(const char *src, RcgfwShaderType type)
 {
 	// create a shader and attach source code to it

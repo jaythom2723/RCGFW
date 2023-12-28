@@ -8,7 +8,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-extern RcgfwUInt64 GetArraySize(void *arr);
+#include <stbimage/stb_image.h>
+
+extern RcgfwUInt64 GetArraySize(void *arr, RcgfwUInt64 size);
 extern void SetFatalErrorCallback(void (*callback)(void));
 
 struct RcgfwState
@@ -23,38 +25,30 @@ struct RcgfwState
 	RcgfwShader *shaderPtr;
 	RcgfwShaderProgram program;
 
+	RcgfwVao vao;
+
 	unsigned char running : 1;
 };
 
 RcgfwState *state;
 
+static void InitEngine(const char *const title, const RcgfwUInt32 width, const RcgfwUInt32 height);
 static void InitGL(void);
+static void InitRenderData(void);
 static void FramebufferSizeCallback(GLFWwindow *window, int width, int height);
 
 void RcgfwInit(const char *const title, const RcgfwUInt32 width, const RcgfwUInt32 height)
 {
-	state = (RcgfwState*) malloc(sizeof(RcgfwState));
-	(void) assert(state != NULL);
-
-	state->title = calloc(strlen(title) + 1, sizeof(char));
-	(void) assert(state->title != NULL);
-	strcpy(state->title, title);
-
-	state->wndWidth = width;
-	state->wndHeight = height;
-
-	state->shaders = calloc(2, sizeof(RcgfwShader));
-	(void) assert(state->shaders != NULL);
-	state->shaderPtr = state->shaders;
-
-	state->running = 0;
-	SetFatalErrorCallback(&RcgfwClose);
-
+	InitEngine(title, width, height);
 	InitGL();
 
 	glViewport(0, 0, state->wndWidth, state->wndHeight);
 
 	glfwSetFramebufferSizeCallback(state->wnd, &FramebufferSizeCallback);
+
+	stbi_set_flip_vertically_on_load(1);
+
+	InitRenderData();
 }
 
 void RcgfwClose(void)
@@ -62,7 +56,7 @@ void RcgfwClose(void)
 	state->shaderPtr = NULL;
 
 	int i = 0;
-	for(i=0; i < sizeof(state->shaders) / sizeof(state->shaders[0]); i++)
+	for(i=0; i < GetArraySize((void*)state->shaders, sizeof(state->shaders)); i++)
 		glDeleteShader(state->shaders[i]);
 
 	free(state->shaders);
@@ -96,7 +90,8 @@ void RcgfwWindowClearScreen(float r, float g, float b, float a)
 
 void RcgfwWindowDraw(void)
 {
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glBindVertexArray(state->vao);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 
@@ -132,6 +127,26 @@ RcgfwShaderProgram GetShaderProgram(void)
 	return state->program;
 }
 
+void InitEngine(const char *const title, const RcgfwUInt32 width, const RcgfwUInt32 height)
+{
+	state = (RcgfwState*) malloc(sizeof(RcgfwState));
+	(void) assert(state != NULL);
+
+	state->title = calloc(strlen(title) + 1, sizeof(char));
+	(void) assert(state->title != NULL);
+	strcpy(state->title, title);
+
+	state->wndWidth = width;
+	state->wndHeight = height;
+
+	state->shaders = calloc(2, sizeof(RcgfwShader));
+	(void) assert(state->shaders != NULL);
+	state->shaderPtr = state->shaders;
+
+	state->running = 0;
+	SetFatalErrorCallback(&RcgfwClose);
+}
+
 void InitGL(void)
 {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -161,6 +176,27 @@ void InitGL(void)
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	glActiveTexture(GL_TEXTURE0);
+}
+
+void InitRenderData(void)
+{
+	// [1:2] -> Position
+	// [3:4] -> Tex Coord
+	float vertices[] = {
+		-0.5f, -0.5f,			1.0f, 0.0f,
+		-0.5f,  0.5f,			1.0f, 1.0f,
+		 0.5f,  0.5f,			1.0f, 1.0f,
+		-0.5f, -0.5f,			0.0f, 0.0f,
+		 0.5f,  0.5f,			1.0f, 1.0f,
+		 0.5f, -0.5f,			1.0f, 0.0f,
+	};
+
+	state->vao = RcgfwVaoCreate();
+	RcgfwVbo vbo = RcgfwVboCreate(vertices, sizeof(vertices));
+	RcgfwVaoVertexAttribArray(0, 2, 4 * sizeof(float), (void*) 0);
+	RcgfwVaoVertexAttribArray(1, 2, 4 * sizeof(float), (void*) (2 * sizeof(float)));
 }
 
 void FramebufferSizeCallback(GLFWwindow *window, int width, int height)

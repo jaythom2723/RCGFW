@@ -2,8 +2,7 @@
 
 #include <stdio.h>
 
-RcgfwUInt64 GetArraySize(void *arr)
+RcgfwUInt64 GetArraySize(void *arr, RcgfwUInt64 size)
 {
-	printf("%d\n", sizeof(arr));
-	return 0;
+	return size / sizeof(arr[0]);
 }
