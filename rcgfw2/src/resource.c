@@ -22,6 +22,8 @@ const char *RcgfwLoad(const char *path)
 	fread(src, 1, size, file);
 	(void) assert(src != NULL);
 
+	fclose(file);
+	
 	return (const char*) src;
 }
 

@@ -21,9 +21,15 @@ typedef unsigned short 		RcgfwUInt16;
 typedef unsigned char  		RcgfwUInt8;
 
 typedef struct RcgfwState RcgfwState;
-typedef RcgfwUInt32 RcgfwShader, RcgfwShaderProgram, RcgfwVbo, RcgfwVao;
+typedef RcgfwUInt32 RcgfwShader, RcgfwShaderProgram, RcgfwVbo, RcgfwVao, RcgfwIbo;
 
 typedef RcgfwUInt32 *RcgfwTexture;
+
+typedef enum RcgfwListTypes
+{
+	RCGFW_SHADER,
+	RCGFW_TEXTURE
+} RcgfwListType;
 
 typedef enum RcgfwShaderTypes
 {

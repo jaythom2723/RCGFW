@@ -24,6 +24,15 @@ RcgfwVbo RcgfwVboCreate(const float *const data, const RcgfwUInt64 size)
 	return vbo;
 }
 
+RcgfwIbo RcgfwIboCreate(const int *const data, const RcgfwUInt64 size)
+{
+	RcgfwIbo ibo;
+	glGenBuffers(1, &ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	return ibo;
+}
+
 void RcgfwVaoBind(RcgfwVao vao)
 {
 	glBindVertexArray(vao);
@@ -32,6 +41,11 @@ void RcgfwVaoBind(RcgfwVao vao)
 void RcgfwVboBind(RcgfwVbo vbo)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+}
+
+void RcgfwIboBind(RcgfwIbo ibo)
+{
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 }
 
 void RcgfwVaoVertexAttribArray(const RcgfwUInt32 index, const int size, const RcgfwUInt64 stride, const void *ptr)
@@ -48,4 +62,9 @@ void RcgfwVaoDelete(RcgfwVao *vao)
 void RcgfwVboDelete(RcgfwVbo *vbo)
 {
 	glDeleteBuffers(1, vbo);
+}
+
+void RcgfwIboDelete(RcgfwIbo *ibo)
+{
+	glDeleteBuffers(1, ibo);
 }

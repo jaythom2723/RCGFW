@@ -46,7 +46,7 @@ void RcgfwInit(const char *const title, const RcgfwUInt32 width, const RcgfwUInt
 
 	glfwSetFramebufferSizeCallback(state->wnd, &FramebufferSizeCallback);
 
-	stbi_set_flip_vertically_on_load(1);
+	stbi_set_flip_vertically_on_load(RCGFW_TRUE);
 
 	InitRenderData();
 }
@@ -58,6 +58,8 @@ void RcgfwClose(void)
 	int i = 0;
 	for(i=0; i < GetArraySize((void*)state->shaders, sizeof(state->shaders)); i++)
 		glDeleteShader(state->shaders[i]);
+
+	glDeleteVertexArrays(1, &state->vao);
 
 	free(state->shaders);
 	state->shaders = NULL;
@@ -91,7 +93,7 @@ void RcgfwWindowClearScreen(float r, float g, float b, float a)
 void RcgfwWindowDraw(void)
 {
 	glBindVertexArray(state->vao);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 
@@ -176,8 +178,6 @@ void InitGL(void)
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	glActiveTexture(GL_TEXTURE0);
 }
 
 void InitRenderData(void)
@@ -185,16 +185,20 @@ void InitRenderData(void)
 	// [1:2] -> Position
 	// [3:4] -> Tex Coord
 	float vertices[] = {
-		-0.5f, -0.5f,			1.0f, 0.0f,
-		-0.5f,  0.5f,			1.0f, 1.0f,
-		 0.5f,  0.5f,			1.0f, 1.0f,
-		-0.5f, -0.5f,			0.0f, 0.0f,
-		 0.5f,  0.5f,			1.0f, 1.0f,
-		 0.5f, -0.5f,			1.0f, 0.0f,
+		0.5f, 0.5f, 1.0f, 1.0f, // top-right
+		0.5f, -0.5f, 1.0, 0.0f, // bottom-right
+		-0.5f, -0.5f, 0.0f, 0.0f, // bottom-left
+		-0.5f, 0.5f, 0.0f, 1.0f, // top-left
+	};
+
+	RcgfwUInt32 indices[] = {
+		0, 1, 3,
+		1, 2, 3
 	};
 
 	state->vao = RcgfwVaoCreate();
 	RcgfwVbo vbo = RcgfwVboCreate(vertices, sizeof(vertices));
+	RcgfwIbo ibo = RcgfwIboCreate(indices, sizeof(indices));
 	RcgfwVaoVertexAttribArray(0, 2, 4 * sizeof(float), (void*) 0);
 	RcgfwVaoVertexAttribArray(1, 2, 4 * sizeof(float), (void*) (2 * sizeof(float)));
 }
