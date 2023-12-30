@@ -23,7 +23,7 @@ const char *RcgfwLoad(const char *path)
 	(void) assert(src != NULL);
 
 	fclose(file);
-	
+
 	return (const char*) src;
 }
 

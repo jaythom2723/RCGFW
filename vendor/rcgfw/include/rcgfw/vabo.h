@@ -15,6 +15,6 @@ void RcgfwVaoVertexAttribArray(const RcgfwUInt32 index, const int size, const Rc
 
 void RcgfwVaoDelete(RcgfwVao *vao);
 void RcgfwVboDelete(RcgfwVbo *vbo);
-void RcgfwIvoDelete(RcgfwIbo *ibo);
+void RcgfwIboDelete(RcgfwIbo *ibo);
 
 #endif /* RCGFW_VABO_H */

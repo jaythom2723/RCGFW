@@ -3,23 +3,25 @@
 
 #include "defs.h"
 
-#define RCGFW_X  0
-#define RCGFW_Y  1
-#define RCGFW_SX 2
-#define RCGFW_SY 3
-#define RCGFW_RZ 4
+#include <cglm/cglm.h>
 
-typedef float  RcgfwTransformComponent[5];
+typedef vec3 RcgfwCompColor;
+typedef mat4 RcgfwCompTransform;
 typedef float* RcgfwVertexData;
 
 typedef struct RcgfwBaseEntity
 {
-	int id;
-	RcgfwTransformComponent transform;
-	RcgfwVertexData vertices;
-	RcgfwVao vao;
+	RcgfwTexture texture;
+	RcgfwCompTransform transform;
+	RcgfwCompColor color;
 } RcgfwBaseEntity;
 
+RcgfwBaseEntity *RcgfwEntityCreate(const char *const texture_name);
+void RcgfwEntityDestroy(RcgfwBaseEntity *ent);
 
+void RcgfwEntityDraw(RcgfwBaseEntity *ent);
+
+void RcgfwEntitySetTransform(RcgfwCompTransform transform, RcgfwBaseEntity *ent);
+void RcgfwEntitySetColor(RcgfwCompColor color, RcgfwBaseEntity *ent);
 
 #endif /* RCGFW_ENT_H */

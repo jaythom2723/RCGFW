@@ -69,3 +69,15 @@ void RcgfwProgramUse(void)
 {
 	glUseProgram(GetShaderProgram());
 }
+
+void RcgfwSetMatrix4(const char *const name, mat4 value)
+{
+	RcgfwUInt32 location = glGetUniformLocation(GetShaderProgram(), name);
+	glUniformMatrix4fv(location, 1, GL_FALSE, (const float*) value);
+}
+
+void RcgfwSetVector3(const char *const name, vec3 value)
+{
+	RcgfwUInt32 location = glGetUniformLocation(GetShaderProgram(), name);
+	glUniform3fv(location, 1, (const float*) value);
+}

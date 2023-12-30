@@ -8,6 +8,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <cglm/cglm.h>
+#include <cglm/mat4.h>
+
 #include <stbimage/stb_image.h>
 
 extern RcgfwUInt64 GetArraySize(void *arr, RcgfwUInt64 size);
@@ -49,6 +52,11 @@ void RcgfwInit(const char *const title, const RcgfwUInt32 width, const RcgfwUInt
 	stbi_set_flip_vertically_on_load(RCGFW_TRUE);
 
 	InitRenderData();
+
+	// setup orthographic viewport
+	mat4 projection;
+	glm_ortho(0.0f, 0.0f, (float) width, (float) height, 0.0f, 10.0f, projection);
+	RcgfwSetMatrix4("projection", projection);
 }
 
 void RcgfwClose(void)

@@ -9,13 +9,10 @@ GAME_LDFLAGS=-L$(VENDOR_DIR)/rcgfw -lrcgfw2 $(RCGFW_LDFLAGS)
 GAME_PPFLAGS=-std=c99 -ggdb -O3 -I./game/include -I$(VENDOR_DIR)/rcgfw/include -I$(VENDOR_DIR)/glad/include -I$(VENDOR_DIR)/cglm/include -I$(VENDOR_DIR)/stbimage/include
 
 .PHONY: all
-all: $(BUILD_DIR)/librcgfw2.a
+all: rcgfw2 game
 
-$(BUILD_DIR)/librcgfw2.a: $(wildcard *.o)
-	$(CC) $(RCGFW_PPFLAGS) $(wildcard ./rcgfw2/src/*.c) $(RCGFW_LDFLAGS)
-	ar rcs $@ $^
-	cp $@ $(VENDOR_DIR)/rcgfw/librcgfw2.a
-	cp -r ./rcgfw2/include/*.h $(VENDOR_DIR)/rcgfw/include/rcgfw/
+rcgfw2: rcgfw2/
+	make -C $^
 
 game: $(wildcard ./game/src/*.c)
 	$(CC) $(GAME_PPFLAGS) $^ $(GAME_LDFLAGS) -o $(BUILD_DIR)/a.out
@@ -24,6 +21,7 @@ game: $(wildcard ./game/src/*.c)
 clean:
 	rm -f ./build/librcgfw2.a
 	rm -f ./build/a.out
+	make clean -C rcgfw2/
 
 .PHONY: run
 run: ./build/a.out
