@@ -3,15 +3,8 @@
 
 #include "defs.h"
 
-#include "resource.h"
-#include "shader.h"
-#include "vabo.h"
-#include "texture.h"
-
-#include "ent.h"
-
-void RcgfwInit(const char *const title, const RcgfwUInt32 width, const RcgfwUInt32 height);
-void RcgfwClose(void);
+struct rcgfw_state *RcgfwInit(const char *const title, const rcgfw_uint32_t width, const rcgfw_uint32_t height);
+void RcgfwClose(struct rcgfw_state *state);
 
 char RcgfwWindowShouldClose(void);
 void RcgfwWindowSwap(void);
