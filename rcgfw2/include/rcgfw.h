@@ -1,8 +1,9 @@
 #ifndef RCGFW_H
 #define RCGFW_H
 
-#include "defs.h"
-#include "util.h"
+#include "rcgfw-defs.h"
+#include "rcgfw-util.h"
+#include "rcgfw-render.h"
 
 struct rcgfw_state *RcgfwInit(const char *const title, const rcgfw_uint32_t width, const rcgfw_uint32_t height);
 void RcgfwClose(struct rcgfw_state *state);
